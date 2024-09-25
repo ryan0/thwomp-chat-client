@@ -1,0 +1,50 @@
+#top-bar {
+  top: 0;
+  width: 100%;
+  position: fixed;
+  background-color: #0F172A;
+  font-family: sans-serif;
+}
+
+#top-bar-spacer {
+  height: 55px;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1180px;
+  height: 55px;
+  margin-left: auto;
+  margin-right: auto;
+
+  a {
+    color: white;
+    text-decoration: none;
+    :visited {
+      text-decoration: none;
+    }
+  }
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.thwomp-ico {
+  margin: 10px;
+  svg {
+    width: 35px;
+    height: 35px;
+  }
+}
+
+
+#login-button {
+  color: #0F172A;
+  background-color: white;
+  padding: 8px;
+  border-radius: 15px;
+}

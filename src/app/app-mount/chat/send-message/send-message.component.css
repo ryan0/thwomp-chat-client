@@ -1,0 +1,10 @@
+:host {
+  border-top: solid 1px white;
+  padding-top: 10px;
+}
+
+input {
+  padding: 10px;
+  width: calc(100% - 24px);
+  font-size: 16px;
+}

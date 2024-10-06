@@ -2,8 +2,7 @@
   top: 0;
   width: 100%;
   position: fixed;
-  background-color: #0F172A;
-  font-family: sans-serif;
+  background-color: #131313;
 }
 
 #top-bar-spacer {
@@ -46,7 +45,7 @@
 
 
 #login-button {
-  color: #0F172A;
+  color: #131313;
   background-color: white;
   padding: 8px;
   border-radius: 15px;

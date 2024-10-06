@@ -1,7 +1,7 @@
 :host {
-  background-color: #0F172A;
-  font-family: sans-serif;
-  color: white;
+  background-color: #131313;
+  border-top: 4px solid #1a1a1a;
+  padding: 50px 0;
 }
 
 .container {

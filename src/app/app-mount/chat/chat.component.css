@@ -1,0 +1,9 @@
+:host {
+  flex-grow: 1;
+  background: #272727;
+  padding: 16px;
+
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}

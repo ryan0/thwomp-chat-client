@@ -1,0 +1,4 @@
+
+@for (message of messages; track message.id) {
+  <app-message [id]="message.id" [text]="message.text" />
+}

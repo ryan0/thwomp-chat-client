@@ -1,0 +1,15 @@
+<form #loginForm (ngSubmit)="onSubmit(username.value, password.value)">
+  <p>
+    <label for="username">Username</label>
+    <input #username id="username" type="text" name="username">
+  </p>
+  <p>
+    <label for="password">Password</label>
+    <input #password id="password" type="password" name="password">
+  </p>
+  <button class="button">Login</button>
+</form>
+
+@if (loginFailed) {
+  <p>Something wrong with username or password</p>
+}

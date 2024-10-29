@@ -1,1 +1,5 @@
-<p>{{ text() }}</p>
+<div class="message-heading">
+  <span class="sender">{{sender()}}</span>
+  <span class="sent-at">{{timestamp()}}</span>
+</div>
+<div class="message-text">{{ text() }}</div>

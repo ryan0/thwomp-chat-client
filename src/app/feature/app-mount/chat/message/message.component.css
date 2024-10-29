@@ -1,0 +1,19 @@
+:host {
+  display: block;
+  margin-bottom: 18px;
+}
+
+.sender {
+  font-weight: 600;
+  font-size: 1.1rem;
+  padding-right: 8px;
+}
+
+.sent-at {
+  font-size: .9rem;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.message-text {
+
+}

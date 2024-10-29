@@ -1,7 +1,7 @@
 import {Component, inject} from '@angular/core';
 import {FormsModule} from "@angular/forms";
-import {MessagesService} from "../messages/messages.service";
 import {Message} from "../message/message.model";
+import {MessagesService} from "../messages/messages.service";
 
 @Component({
   selector: 'app-send-message',
@@ -13,19 +13,16 @@ import {Message} from "../message/message.model";
   styleUrl: './send-message.component.css'
 })
 export class SendMessageComponent {
+
+  private chatMessagesService = inject(MessagesService);
+
   text = ''
-  private messagesService = inject(MessagesService);
 
   public sendMessage() {
     if (this.text === '') {
       return;
     }
-
-    const message: Message = {
-      id: Math.random() + "",
-      text: this.text
-    }
-    this.messagesService.addMessage(message);
+    this.chatMessagesService.sendMessage(this.text)
     this.text = '';
   }
 

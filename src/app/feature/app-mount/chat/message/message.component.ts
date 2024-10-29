@@ -9,7 +9,9 @@ import {Component, input} from '@angular/core';
 })
 export class MessageComponent {
 
-  id = input.required<string>();
+  id = input.required<number>();
   text = input.required<string>();
+  sender = input.required<string>();
+  timestamp = input.required<Date>();
 
 }

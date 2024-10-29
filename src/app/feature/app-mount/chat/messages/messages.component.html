@@ -1,4 +1,9 @@
 
 @for (message of messages; track message.id) {
-  <app-message [id]="message.id" [text]="message.text" />
+  <app-message
+    [id]="message.id"
+    [text]="message.text"
+    [sender]="message.senderName"
+    [timestamp]="message.sentAt"
+  />
 }

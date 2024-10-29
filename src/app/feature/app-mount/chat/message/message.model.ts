@@ -1,5 +1,14 @@
 
 export interface Message {
-  id: string;
+  id: number;
   text: string;
+  sentAt: Date;
+  senderName: string;
+  userId: number;
+  chatId: number;
+}
+
+export interface MessageNew {
+  text: string;
+  chatId: number;
 }

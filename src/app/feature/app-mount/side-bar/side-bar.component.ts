@@ -1,6 +1,7 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {UserChatsServiceService} from "./user-chats-service.service";
+import {ChatService} from "./chat.service";
 import {Chat} from "../chat/chat.model";
+import {MessagesService} from "../chat/messages/messages.service";
 
 @Component({
   selector: 'app-side-bar',
@@ -11,19 +12,30 @@ import {Chat} from "../chat/chat.model";
 })
 export class SideBarComponent implements OnInit {
 
-  private userChatService = inject(UserChatsServiceService);
+  private chatService = inject(ChatService);
 
   ngOnInit(): void {
-    this.userChatService.loadChats();
+    this.chatService.loadChats().subscribe({
+      next: chats => {
+        if (chats.length >= 1) {
+          let chatId= chats[0].id;
+          this.chatService.switchChat(chatId);
+        }
+      }
+    });
+
+    if (this.chatService.getChats().length > 0) {
+
+    }
   }
 
 
   public chats() {
-    return this.userChatService.getChats();
+    return this.chatService.getChats();
   }
 
   public onSelectChat(chat: Chat) {
-    console.log(chat);
+    this.chatService.switchChat(chat.id);
   }
 
 }

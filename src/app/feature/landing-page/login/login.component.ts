@@ -20,15 +20,16 @@ export class LoginComponent {
 
   public onSubmit(username: string, password: string) {
     let auth = this.encodeCredentials(username, password);
-    let headers = new HttpHeaders({
-      'authorization': auth
-    });
 
-    this.httpClient.get('http://localhost:8080/user', {headers, responseType: 'text'}).subscribe({
+    let body =  {
+      username: username,
+      password: password
+    }
+
+    this.httpClient.post('/api/authenticate', body).subscribe({
       next: response => {
-        console.log("Logged in!");
-        sessionStorage.setItem('sessionAuth', auth);
-        this.router.navigate(['/app'], {replaceUrl:true});
+        console.log("Logged in!" + response);
+        //this.router.navigate(['/app'], {replaceUrl:true});
       },
       error: error => {
         console.log(error);

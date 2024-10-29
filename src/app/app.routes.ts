@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
-import {LandingPageComponent} from "./landing-page/landing-page.component";
-import {AppMountComponent} from "./app-mount/app-mount.component";
-import {HomeComponent} from "./landing-page/home/home.component";
-import {LoginComponent} from "./landing-page/login/login.component";
+import {LandingPageComponent} from "./feature/landing-page/landing-page.component";
+import {AppMountComponent} from "./feature/app-mount/app-mount.component";
+import {HomeComponent} from "./feature/landing-page/home/home.component";
+import {LoginComponent} from "./feature/landing-page/login/login.component";
 
 export const routes: Routes = [
   {

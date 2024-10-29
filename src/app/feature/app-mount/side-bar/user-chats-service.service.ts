@@ -17,12 +17,7 @@ export class UserChatsServiceService {
   }
 
   public loadChats(): void {
-    let auth = sessionStorage.getItem('sessionAuth') || '';
-    let headers = new HttpHeaders({
-      'authorization': auth
-    });
-
-    this.httpClient.get<Chat[]>('http://localhost:8080/chat', {headers}).subscribe({
+    this.httpClient.get<Chat[]>('/api/chat').subscribe({
       next: response => {
         console.log(response);
         this.chats = response

@@ -62,7 +62,8 @@
               "buildTarget": "thwomp-chat-client:build:production"
             },
             "development": {
-              "buildTarget": "thwomp-chat-client:build:development"
+              "buildTarget": "thwomp-chat-client:build:development",
+              "proxyConfig": "src/proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

@@ -1,4 +1,4 @@
-import {inject, Injectable, OnInit} from "@angular/core";
+import {inject, Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Message, MessageNew} from "../message/message.model";
 import {Subject} from "rxjs";
@@ -39,7 +39,7 @@ export class MessagesService {
 
   public sendMessage(message: string) {
     let activeChatId = this.chatsServiceService.getActiveChatId();
-    let url =  `http://localhost:4200/api/message/chat/${activeChatId}`
+    let url =  `/api/message/chat/${activeChatId}`
     let msg : MessageNew = {
       text: message,
       chatId: activeChatId,
@@ -62,7 +62,7 @@ export class MessagesService {
   }
 
   private loadMessagesForChat(chatId: number) {
-    let url = `http://localhost:4200/api/message/chat/${chatId}`;
+    let url = `/api/message/chat/${chatId}`;
     this.httpClient.get<Message[]>(url).subscribe({
       next: response => {
         this.messages.set(chatId, response);

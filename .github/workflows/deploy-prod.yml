@@ -26,3 +26,6 @@ jobs:
 
       - name: Sync build result
         run: ssh prod 'rsync -a --delete ${{ secrets.BUILD_DIR }} ${{ secrets.SITE_DIR }}'
+
+      - name: Cleanup
+        run: rm -rf ~/.ssh

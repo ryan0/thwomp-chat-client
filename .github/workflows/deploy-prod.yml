@@ -1,0 +1,28 @@
+name: Deploy to Prod
+on:
+  workflow_dispatch:
+
+jobs:
+  run-deploy:
+    name: Deploy Production
+    runs-on: ubuntu-latest
+    steps:
+      - name: install ssh keys
+        run: |
+          install -m 600 -D /dev/null ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          cat >>~/.ssh/config <<END
+          Host prod
+            HostName ${{ secrets.SSH_HOST }}
+            User ${{ secrets.SSH_USER }}
+            StrictHostKeyChecking no
+          END
+
+      - name: connect and pull
+        run: ssh prod 'cd ${{ secrets.WORK_DIR }} && git fetch && git reset --hard origin/main'
+
+      - name: Install & Build
+        run: ssh prod 'cd ${{ secrets.WORK_DIR }} && npm install && npm run build'
+
+      - name: Sync build result
+        run: ssh prod 'rsync -a --delete ${{ secrets.BUILD_DIR }} ${{ secrets.SITE_DIR }}'

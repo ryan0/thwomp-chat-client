@@ -2,6 +2,7 @@ import {Component, inject, OnInit} from '@angular/core';
 import {ChatService} from "./chat.service";
 import {Chat} from "../chat/chat.model";
 import {MessagesService} from "../chat/messages/messages.service";
+import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'app-side-bar',
@@ -13,6 +14,8 @@ import {MessagesService} from "../chat/messages/messages.service";
 export class SideBarComponent implements OnInit {
 
   private chatService = inject(ChatService);
+
+  public logoutUrl = environment.logoutUrl
 
   ngOnInit(): void {
     this.chatService.loadChats().subscribe({

@@ -3,8 +3,6 @@ run-name: Build ${{github.ref}} run by ${{ github.actor }}
 
 on:
   push:
-    branches-ignore:
-      - main
 
 jobs:
   build:

@@ -1,49 +1,76 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Chat} from "../chat/chat.model";
-import {catchError, Observable, of, Subject, tap} from "rxjs";
+import {AsyncSubject, BehaviorSubject, catchError, forkJoin, Observable, of} from "rxjs";
+import {WebSocketService} from "../../../core/websocket.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
-
   private httpClient = inject(HttpClient);
+  private webSocketService = inject(WebSocketService);
 
   private chats : Chat[] = [];
-  private activeChatId = 0;
-  private activeChatIdEmitter = new Subject<number>();
+  private chatsLoaded$ = new AsyncSubject<boolean>()
+  private activeChatId$ = new BehaviorSubject<number | undefined>(undefined);
 
-  constructor() { }
-
-  public getActiveChatId(): number {
-    return this.activeChatId;
+  constructor() {
+    forkJoin({
+        loadedChats: this.loadChats(),
+        wsConnected: this.webSocketService.connected()
+    }).subscribe(({loadedChats, wsConnected}) => {
+      this.handleChatResponse(loadedChats);
+      this.handleWsConnection(wsConnected);
+    });
   }
 
-  public listenActiveChatId(): Observable<number> {
-    return this.activeChatIdEmitter.asObservable();
+  public getChats(): ReadonlyArray<Chat> {
+    return this.chats;
+  }
+
+  public getActiveChatId(): number | undefined {
+    return this.activeChatId$.getValue();
+  }
+
+  public listenActiveChatId(): Observable<number | undefined> {
+    return this.activeChatId$.asObservable();
   }
 
   public switchChat(chatId: number) {
-    console.log("switchChat");
-    this.activeChatId = chatId;
-    this.activeChatIdEmitter.next(chatId);
+    this.activeChatId$.next(chatId);
   }
 
-  public getChats() {
-      return this.chats;
+  public listenChatsLoaded(): Observable<boolean> {
+    return this.chatsLoaded$.asObservable();
   }
 
-  public loadChats(): Observable<Chat[]> {
+  private loadChats(): Observable<Chat[]> {
     return this.httpClient.get<Chat[]>('/api/chat').pipe(
-      tap((response: Chat[]) => {
-        this.chats = response;
-      }),
       catchError(error => {
         console.log(error);
-        this.chats = [];
         return of([]);
       })
     );
+  }
+
+  private handleChatResponse(chats: Chat[]) {
+    this.chats = chats;
+    this.chatsLoaded$.next(true);
+    this.chatsLoaded$.complete();
+
+    if (this.chats && this.chats.length > 0) {
+      this.activeChatId$.next(this.chats[0].id);
+    } else {
+      this.activeChatId$.next(undefined);
+    }
+  }
+
+  private handleWsConnection(connected: boolean) {
+    if (connected) {
+      for (const chat of this.chats) {
+        this.webSocketService.subscribeToTopic("/topic/message/chat/" + chat.id);
+      }
+    }
   }
 }

@@ -1,5 +1,5 @@
 <div class="message-heading">
   <span class="sender">{{sender()}}</span>
-  <span class="sent-at">{{timestamp()}}</span>
+  <span class="sent-at">{{timestamp() | date:'short'}}</span>
 </div>
 <div class="message-text">{{ text() }}</div>

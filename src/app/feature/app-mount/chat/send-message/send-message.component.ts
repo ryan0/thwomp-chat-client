@@ -14,7 +14,7 @@ import {MessagesService} from "../messages/messages.service";
 })
 export class SendMessageComponent {
 
-  private chatMessagesService = inject(MessagesService);
+  private messagesService = inject(MessagesService);
 
   text = ''
 
@@ -22,7 +22,7 @@ export class SendMessageComponent {
     if (this.text === '') {
       return;
     }
-    this.chatMessagesService.sendMessage(this.text)
+    this.messagesService.sendMessage(this.text)
     this.text = '';
   }
 

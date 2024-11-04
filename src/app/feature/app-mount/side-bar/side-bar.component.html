@@ -1,13 +1,11 @@
-<div>
-  <a [href]="logoutUrl">logout</a>
-</div>
+<app-side-top-nav />
 
 <ul>
   @for (chat of chats(); track chat.id) {
     <li class="place-item">
-      <button (click)="onSelectChat(chat)">
-        <h3>{{ chat.name }}</h3>
-      </button>
+      <a (click)="onSelectChat(chat)">
+        {{ chat.name }}
+      </a>
     </li>
   }
 </ul>

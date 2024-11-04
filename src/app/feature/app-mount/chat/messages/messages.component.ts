@@ -24,17 +24,24 @@ export class MessagesComponent implements OnInit, AfterViewChecked {
   ngOnInit(): void {
     this.chatService.listenActiveChatId().subscribe({
       next: () => {
+        console.log("listen active chat from message component");
         this.shouldScrollToBottom = true;
       }
     });
 
-    this.messageService.listenMessages().subscribe({
+    this.messageService.listenNewMessage().subscribe({
       next: (msg) => {
         if (msg.chatId === this.chatService.getActiveChatId()) {
           this.shouldScrollToBottom = true;
         }
       }
-    })
+    });
+
+    this.messageService.listenMessagesLoadedForChat().subscribe({
+      next: (chatId) => {
+        this.shouldScrollToBottom = true;
+      }
+    });
   }
 
   ngAfterViewChecked() {
@@ -55,5 +62,4 @@ export class MessagesComponent implements OnInit, AfterViewChecked {
 
     }
   }
-
 }

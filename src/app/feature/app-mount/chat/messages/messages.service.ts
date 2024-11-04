@@ -1,64 +1,72 @@
 import {inject, Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Message, MessageNew} from "../message/message.model";
-import {Subject} from "rxjs";
+import {Observable, Subject} from "rxjs";
 import {ChatService} from "../../side-bar/chat.service";
+import {WebSocketService} from "../../../../core/websocket.service";
+import {IMessage} from "@stomp/stompjs";
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class MessagesService {
-
   private httpClient = inject(HttpClient);
-  private chatsServiceService = inject(ChatService);
+  private webSocketService= inject(WebSocketService);
+  private chatService = inject(ChatService);
 
   private messages = new Map<number, Message[]>();
-  private messageEmitter = new Subject<Message>();
+  private newMessage$ = new Subject<Message>();
+  private messagesLoaded$ = new Subject<number>();
+
 
   constructor() {
-    console.log("message service inirt");
+    this.chatService.listenChatsLoaded().subscribe(() => {
+      for (const chat of this.chatService.getChats()) {
+        const topic = `/topic/message/chat/${chat.id}`;
+        this.webSocketService.listenImessage(topic)
+          .subscribe(this.onReceiveWsMessage.bind(this));
+      }
+    });
 
-    this.chatsServiceService.listenActiveChatId().subscribe(chatId => {
-
-      console.log("chatId", chatId);
-
-      if (!this.messages.has(chatId)) {
+    this.chatService.listenActiveChatId().subscribe(chatId => {
+      if (chatId && !this.messages.has(chatId)) {
         this.loadMessagesForChat(chatId);
       }
     });
   }
 
   public getMessages() {
-    return this.messages.get(this.chatsServiceService.getActiveChatId());
+    const chatId = this.chatService.getActiveChatId();
+    return chatId ? this.messages.get(chatId) : undefined;
   }
 
-  public listenMessages() {
-    return this.messageEmitter.asObservable();
+  public listenNewMessage() {
+    return this.newMessage$.asObservable();
+  }
+
+  public listenMessagesLoadedForChat() {
+    return this.messagesLoaded$.asObservable();
   }
 
   public sendMessage(message: string) {
-    let activeChatId = this.chatsServiceService.getActiveChatId();
-    let url =  `/api/message/chat/${activeChatId}`
+    let activeChatId = this.chatService.getActiveChatId();
+    if(!activeChatId) {
+      return;
+    }
+
+    let topic =  `/ws/message/chat/${activeChatId}`
     let msg : MessageNew = {
       text: message,
       chatId: activeChatId,
     };
-
-    this.httpClient.post<Message>(url, msg).subscribe({
-      next: message => {
-        this.addMessage(message)
-      },
-      error: err => {
-        console.log(err);
-      }
-    });
+    this.webSocketService.send(topic, msg);
   }
 
-  private addMessage(message: Message){
-    let activeChatId = this.chatsServiceService.getActiveChatId();
-    this.messages.get(activeChatId)?.push(message);
-    this.messageEmitter.next(message);
+  private onReceiveWsMessage(iMsg: IMessage) {
+    const msg: Message = JSON.parse(iMsg.body);
+    this.messages.get(msg.chatId)?.push(msg);
+    this.newMessage$.next(msg);
   }
 
   private loadMessagesForChat(chatId: number) {
@@ -66,14 +74,11 @@ export class MessagesService {
     this.httpClient.get<Message[]>(url).subscribe({
       next: response => {
         this.messages.set(chatId, response);
-        if (response.length > 0) {
-          this.messageEmitter.next(response[response.length - 1]);
-        }
+        this.messagesLoaded$.next(chatId);
       },
       error: error => {
         console.log(error);
       }
     })
   }
-
 }

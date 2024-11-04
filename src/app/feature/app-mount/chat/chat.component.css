@@ -1,7 +1,7 @@
 :host {
   flex-grow: 1;
   background: #272727;
-  padding: 16px;
+  padding: 0 16px;
 
   display: flex;
   flex-direction: column;

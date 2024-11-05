@@ -2,12 +2,7 @@
   top: 0;
   width: 100%;
   padding: 6px 0px;
-  position: fixed;
   background-color: #131313;
-}
-
-#top-bar-spacer {
-  height: 55px;
 }
 
 .container {
@@ -36,8 +31,13 @@
   align-items: center;
 }
 
+.thwomp-ico-text {
+  font-weight: 600;
+  font-size: 1.7rem;
+}
 .thwomp-ico {
   margin: 10px;
+  height: 35px;
   svg {
     width: 35px;
     height: 35px;
@@ -48,6 +48,14 @@
 #login-button {
   color: #131313;
   background-color: white;
+  border: solid 1px #131313;
   padding: 8px;
   border-radius: 15px;
+  transition: all .2s ease;
+}
+
+#login-button:hover {
+  background-color: #131313;
+  border: solid 1px white;
+  color: white;
 }

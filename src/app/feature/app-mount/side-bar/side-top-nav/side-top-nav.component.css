@@ -1,0 +1,17 @@
+
+.nav-wrapper {
+  padding-top: 12px;
+  display: flex;
+  justify-content: flex-start;
+  gap: 12px;
+}
+
+.spacer {
+  flex-grow: 1;
+}
+
+.fab-icon {
+  color: rgba(255, 255, 255, 0.86);
+  background-color: #1e1e1e;
+  box-shadow: none;
+}

@@ -3,3 +3,13 @@
   width: 100vw;
   height: 100vh;
 }
+
+.hidden {
+  display: none;
+}
+
+.mobile-hidden {
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+}

@@ -1,1 +1,15 @@
-<p>side-top-nav works!</p>
+<div class="nav-wrapper">
+  <a (click)="onHideSideBar()" mat-mini-fab class="fab-icon" matTooltip="Close Sidebar" matTooltipPosition="below">
+    <mat-icon fontIcon="view_sidebar"></mat-icon>
+  </a>
+
+  <div class="spacer"></div>
+
+  <a mat-mini-fab class="fab-icon" matTooltip="Search Chats" matTooltipPosition="below">
+    <mat-icon fontIcon="search"></mat-icon>
+  </a>
+
+  <a mat-mini-fab class="fab-icon" matTooltip="New Chat" matTooltipPosition="below">
+    <mat-icon fontIcon="add"></mat-icon>
+  </a>
+</div>

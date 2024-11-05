@@ -33,6 +33,17 @@ export class ChatService {
     return this.activeChatId$.getValue();
   }
 
+  public getActiveChatName(): string {
+    let id = this.getActiveChatId();
+    if (id === undefined) {
+      return '';
+    } else {
+      return this.chats
+        .find(chat => chat.id === id)
+        ?.name || '';
+    }
+  }
+
   public listenActiveChatId(): Observable<number | undefined> {
     return this.activeChatId$.asObservable();
   }

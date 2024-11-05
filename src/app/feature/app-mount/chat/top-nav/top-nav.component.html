@@ -1,5 +1,42 @@
-<h3>top-nav works!</h3>
+<div class="nav-wrapper">
+  <a mat-mini-fab
+     [ngClass]="{'is-hidden': isSideBarVisible()}"
+     (click)="onShowSideBar()"
+     class="fab-icon"
+     matTooltip="Show Sidebar"
+     matTooltipPosition="below">
+    <mat-icon fontIcon="view_sidebar"></mat-icon>
+  </a>
 
-<div>
-  <a [href]="logoutUrl">logout</a>
+  <a mat-mini-fab
+     [ngClass]="{'is-hidden': isSideBarVisible()}"
+     class="fab-icon"
+     matTooltip="New Chat"
+     matTooltipPosition="below">
+    <mat-icon fontIcon="add"></mat-icon>
+  </a>
+
+  <span>
+    {{ getChatName() }}
+  </span>
+
+  <div class="spacer"></div>
+
+  <a mat-mini-fab class="fab-icon" matTooltip="Call" matTooltipPosition="below">
+    <mat-icon fontIcon="call"></mat-icon>
+  </a>
+
+  <a mat-mini-fab class="fab-icon" matTooltip="Video Call" matTooltipPosition="below">
+    <mat-icon fontIcon="videocam"></mat-icon>
+  </a>
+
+  <a mat-mini-fab [matMenuTriggerFor]="accountMenu" class="fab-icon" matTooltip="Account" matTooltipPosition="below">
+    <mat-icon fontIcon="person"></mat-icon>
+  </a>
+  <mat-menu #accountMenu="matMenu">
+    <a [href]="logoutUrl" mat-menu-item>
+      <mat-icon>logout</mat-icon>
+      <span>Logout</span>
+    </a>
+  </mat-menu>
 </div>

@@ -6,6 +6,9 @@
     max-width: 80%;
     font-size: 1.4rem;
     line-height: 1.8rem;
+    @media screen and (max-width: 768px) {
+      max-width: 100%;
+    }
   }
 
 
@@ -16,6 +19,10 @@
     line-height: 3.3rem;
     margin-top: 10vh;
     margin-bottom: 5vh;
+
+    @media screen and (max-width: 768px){
+      max-width: 100%;
+    }
   }
 
   .hero-links {
@@ -23,6 +30,10 @@
 
     a {
       margin-left: 25px;
+
+      @media screen and (max-width: 425px) {
+        margin-bottom: 16px;
+      }
     }
   }
 }
